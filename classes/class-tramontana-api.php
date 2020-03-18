@@ -43,7 +43,12 @@ class Tramontana_API {
     }
 
     public function searchMovie($query) {
-        $url = $this->apiUrl . 'search/movie?api_key='.$this->apiKey.'&language=en-US&include_adult=false&query='.urlencode($query);
+        $url = $this->apiUrl.'search/movie?api_key='.$this->apiKey.'&language=en-US&include_adult=false&query='.urlencode($query);
+        return $this->callAPI('GET', $url);
+    }
+
+    public function getMovie($movieId) {
+        $url = $this->apiUrl.'movie/'.$movieId.'?api_key='.$this->apiKey;
         return $this->callAPI('GET', $url);
     }
 
