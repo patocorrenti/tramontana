@@ -21,18 +21,48 @@ class Tramontana_Shortcodes {
     }
 
     public function shortcode_movie_addform() {
+        if (!is_user_logged_in()) return false;
+
         $movies = new stdClass();
 
         if (
             isset($_POST['search_movie'])
             && wp_verify_nonce( wp_unslash($_POST['_wpnonce']), 'ttna_search_movie')
         ) {
+            // Search movie
             $movies = $this->api->searchMovie(filter_var($_POST['search_movie'], FILTER_SANITIZE_STRING));
+        } elseif (
+            isset($_POST['movie_id'])
+            && wp_verify_nonce( wp_unslash($_POST['_wpnonce']), 'ttna_add_movie')
+        ) {
+            // Get movie
+            $movieId = (int)array_keys($_POST['movie_id'])[0];
+            if ($movieId) {
+                $movie = $this->api->getMovie($movieId);
+                if ($movie) {
+                    // Add the movie
+                    echo '<pre>';
+                    var_dump($movie);
+                    echo '</pre>';
+                    $this->createMovie($movie);
+                    return;
+                }
+            }
         }
 
         ob_start();
         require( dirname(__FILE__) . '/../templates/frontend/add-movie.php');
         return ob_get_clean();
+    }
+
+    public function createMovie($data) {
+        // Create the movie
+        $post = array(
+            'post_title'    => $data->original_title,
+            'post_status'   => 'publish',
+            'post_type'     => 'ttna_movie'
+        );
+        $newMovieId = wp_insert_post($post);
     }
 
 }

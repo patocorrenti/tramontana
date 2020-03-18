@@ -3,6 +3,7 @@
         <h3 class="title"><?php _e('Selecciona la pel&iacute;cula', 'tramontana') ?></h3>
         <?php if (count($movies->results)) : ?>
         <form action="" method="post">
+            <?php wp_nonce_field( 'ttna_add_movie') ?>
             <ul class="movie_list" id="ttna-movie_list">
             <?php foreach($movies->results as $movie) : ?>
                 <li>
@@ -20,7 +21,7 @@
                             <div class="desc">
                                 <?php echo $movie->overview ?>
                             </div>
-                            <input class="add" type="submit" value="Agregar" name="<?php echo $movie->id ?>">
+                            <input class="add" type="submit" value="Agregar" name="movie_id[<?php echo $movie->id ?>]">
                         </div>
                     </article>
                 </li>

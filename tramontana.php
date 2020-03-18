@@ -25,7 +25,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 include_once( 'classes/class-tramontana-api.php' );
+include_once( 'classes/class-tramontana-movie.php' );
 include_once( 'classes/class-tramontana-shortcodes.php' );
 
 $tramontanaApi = new Tramontana_API();
+new Tramontana_Movie();
 new Tramontana_Shortcodes($tramontanaApi);
