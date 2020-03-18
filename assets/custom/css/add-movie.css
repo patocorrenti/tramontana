@@ -1,0 +1,116 @@
+/*
+*   Movie list
+*/
+
+.ttna-search_movie .movie_list {
+    list-style: none;
+    margin: 0;
+}
+.ttna-search_movie .movie_list > li {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 5px;
+}
+
+/* movie */
+.ttna-search_movie .movie {
+    background-color: #eee;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 3px;
+    transition-duration: .4s;
+}
+.ttna-search_movie .movie:hover {
+    border-color: #ddd;
+    background-color: #fff;
+}
+.ttna-search_movie .movie.selected {
+    border-color: #000;
+    background-color: #fff;
+}
+/* image */
+.ttna-search_movie .movie .image {
+    display: block;
+    margin: 0 auto;
+    opacity: 0.8;
+    text-align: center;
+    transition-duration: .4s;
+    width: 100%;
+}
+.ttna-search_movie .movie .image img {
+    margin: 0 auto;
+}
+.ttna-search_movie .movie.selected .image,
+.ttna-search_movie .movie:hover .image {
+    opacity: 1;
+}
+/* data */
+.ttna-search_movie .movie header {
+    text-align: center;
+}
+.ttna-search_movie .movie .data {
+    padding: 10px;
+    width: 100%;
+}
+.ttna-search_movie .movie .name {
+    margin: 0;
+    font-size: 22px;
+}
+.ttna-search_movie .movie .date {
+
+}
+.ttna-search_movie .movie .desc {
+    font-size: 14px;
+    padding: 10px 0;
+}
+.ttna-search_movie .movie .add {
+    font-size: 13px;
+    padding: 10px;
+}
+.ttna-search_movie .movie:not(.selected) .desc,
+.ttna-search_movie .movie:not(.selected) .add {
+    display: none;
+}
+
+@media screen and (min-width: 500px) {
+    .ttna-search_movie .movie {
+        flex-wrap: nowrap;
+    }
+    .ttna-search_movie .movie header {
+        text-align: left;
+    }
+    .ttna-search_movie .movie .image {
+        width: 150px;
+    }
+    .ttna-search_movie .movie .data {
+        width: calc(100% - 150px);
+    }
+}
+
+
+/*
+*   Movie Form
+*/
+.search_movie_form {
+    margin-top: 20px;
+}
+.search_movie_form button {
+    margin-top: 10px;
+    width: 100%;
+}
+@media screen and (min-width: 500px) {
+    .search_movie_form {
+        display: flex;
+    }
+    .search_movie_form input[type="text"] {
+        box-sizing: border-box;
+        width: calc(100% - 150px);
+    }
+    .search_movie_form button {
+        margin-top: 0;
+        box-sizing: border-box;
+        width: 150px;
+    }
+}
