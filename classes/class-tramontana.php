@@ -19,7 +19,6 @@ class Tramontana {
         $this->Movie = new Tramontana_Movie();
 
         new Tramontana_Shortcodes($this->Api, $this->Movie);
-
     }
 
     public function ACF_notice () {

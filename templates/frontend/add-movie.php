@@ -32,11 +32,23 @@
             No se encontró nada
         <?php endif ?>
     <?php endif ?>
-    <form action="" method="post" class="search_movie_form">
-        <?php wp_nonce_field( 'ttna_search_movie') ?>
-        <input type="text" value="" name="search_movie" placeholder="<?php _e('Nombre de la pel&iacute;cula', 'tramontana') ?>">
-        <button type="submit">
-            <?php _e('Buscar', 'tramontana') ?>
-        </button>
-    </form>
+    <?php if ($newMovie) : ?>
+        <div class="">
+            <h4>
+                <?php _e('Agregado:', 'tramontina') ?>
+                <?php echo $newMovie->post_title ?>
+            </h4>
+            <a href="<?php echo get_permalink($newMovie) ?>">
+                <?php _e('Ir a calificar', 'tramontina') ?>
+            </a>
+        </div>
+    <?php else : ?>
+        <form action="" method="post" class="search_movie_form">
+            <?php wp_nonce_field( 'ttna_search_movie') ?>
+            <input type="text" value="" name="search_movie" placeholder="<?php _e('Nombre de la pel&iacute;cula', 'tramontana') ?>">
+            <button type="submit">
+                <?php _e('Buscar', 'tramontana') ?>
+            </button>
+        </form>
+    <?php endif ?>
 </div>

@@ -12,13 +12,11 @@ class Tramontana_Shortcodes {
         $this->Movie = $movie;
 
         add_action( 'wp_enqueue_scripts', [$this,'enqueue_scripts']);
-
         add_shortcode('movie_addform', [$this,'shortcode_movie_addform']);
     }
 
     public function enqueue_scripts() {
         wp_enqueue_style( 'addmovie', plugins_url('/../assets/custom/css/add-movie.css', __FILE__));
-
         wp_enqueue_script( 'addmovie', plugins_url('/../assets/custom/js/add-movie.js', __FILE__), array('jquery'));
     }
 
@@ -37,17 +35,12 @@ class Tramontana_Shortcodes {
             isset($_POST['movie_id'])
             && wp_verify_nonce( wp_unslash($_POST['_wpnonce']), 'ttna_add_movie')
         ) {
-            // Get movie
+            // Add movie
             $movieId = (int)array_keys($_POST['movie_id'])[0];
             if ($movieId) {
                 $movieData = $this->Api->getMovie($movieId);
                 if ($movieData) {
-                    // Add the movie
-                    echo '<pre>';
-                    var_dump($movieData);
-                    echo '</pre>';
-                    $this->Movie->addMovie($movieData);
-                    return;
+                    $newMovie = $this->Movie->addMovie($movieData);
                 }
             }
         }
