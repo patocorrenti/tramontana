@@ -38,6 +38,16 @@ class Tramontana_Movie {
         register_post_type( 'ttna_movie', $args );
     }
 
+    public function addMovie($data) {
+        // Create the movie
+        $post = array(
+            'post_title'    => $data->original_title,
+            'post_status'   => 'publish',
+            'post_type'     => 'ttna_movie'
+        );
+        $newMovieId = wp_insert_post($post);
+    }
+
 }
 
 ?>

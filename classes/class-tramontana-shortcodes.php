@@ -4,10 +4,12 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class Tramontana_Shortcodes {
 
-    var $api;
+    var $Api;
+    var $Movie;
 
-    function Tramontana_Shortcodes($api) {
-        $this->api = $api;
+    function Tramontana_Shortcodes($api, $movie) {
+        $this->Api = $api;
+        $this->Movie = $movie;
 
         add_action( 'wp_enqueue_scripts', [$this,'enqueue_scripts']);
 
@@ -30,7 +32,7 @@ class Tramontana_Shortcodes {
             && wp_verify_nonce( wp_unslash($_POST['_wpnonce']), 'ttna_search_movie')
         ) {
             // Search movie
-            $movies = $this->api->searchMovie(filter_var($_POST['search_movie'], FILTER_SANITIZE_STRING));
+            $movies = $this->Api->searchMovie(filter_var($_POST['search_movie'], FILTER_SANITIZE_STRING));
         } elseif (
             isset($_POST['movie_id'])
             && wp_verify_nonce( wp_unslash($_POST['_wpnonce']), 'ttna_add_movie')
@@ -38,13 +40,13 @@ class Tramontana_Shortcodes {
             // Get movie
             $movieId = (int)array_keys($_POST['movie_id'])[0];
             if ($movieId) {
-                $movie = $this->api->getMovie($movieId);
-                if ($movie) {
+                $movieData = $this->Api->getMovie($movieId);
+                if ($movieData) {
                     // Add the movie
                     echo '<pre>';
-                    var_dump($movie);
+                    var_dump($movieData);
                     echo '</pre>';
-                    $this->createMovie($movie);
+                    $this->Movie->addMovie($movieData);
                     return;
                 }
             }
@@ -53,16 +55,6 @@ class Tramontana_Shortcodes {
         ob_start();
         require( dirname(__FILE__) . '/../templates/frontend/add-movie.php');
         return ob_get_clean();
-    }
-
-    public function createMovie($data) {
-        // Create the movie
-        $post = array(
-            'post_title'    => $data->original_title,
-            'post_status'   => 'publish',
-            'post_type'     => 'ttna_movie'
-        );
-        $newMovieId = wp_insert_post($post);
     }
 
 }
