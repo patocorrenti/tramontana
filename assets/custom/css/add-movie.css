@@ -14,37 +14,30 @@
 
 /* movie */
 .ttna-search_movie .movie {
-    background-color: #eee;
     border: 1px solid transparent;
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     padding: 3px;
+    opacity: .8;
     transition-duration: .4s;
 }
 .ttna-search_movie .movie:hover {
-    border-color: #ddd;
-    background-color: #fff;
+    opacity: 1;
 }
 .ttna-search_movie .movie.selected {
     border-color: #000;
-    background-color: #fff;
 }
 /* image */
 .ttna-search_movie .movie .image {
     display: block;
     margin: 0 auto;
-    opacity: 0.8;
     text-align: center;
     transition-duration: .4s;
     width: 100%;
 }
 .ttna-search_movie .movie .image img {
     margin: 0 auto;
-}
-.ttna-search_movie .movie.selected .image,
-.ttna-search_movie .movie:hover .image {
-    opacity: 1;
 }
 /* data */
 .ttna-search_movie .movie header {

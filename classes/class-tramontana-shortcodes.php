@@ -21,7 +21,10 @@ class Tramontana_Shortcodes {
     }
 
     public function shortcode_movie_addform() {
-        if (!is_user_logged_in()) return false;
+        if (!is_user_logged_in()) {
+            echo '<p>'.__('Debes iniciar sesi&oacute;n para poder agregar una pel&iacute;cula', 'tramontana').'</p>';
+            return false;
+        }
 
         $movies = new stdClass();
 
