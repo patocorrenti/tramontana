@@ -4,7 +4,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class Tramontana_Movie {
 
+    var $imgUrl;
+
     function Tramontana_Movie() {
+        $this->imgUrl = 'http://image.tmdb.org/t/p/w500';
         add_action( 'init', [$this, 'regiter_post_type'] );
         $this->registerCustomFields();
     }
@@ -33,7 +36,7 @@ class Tramontana_Movie {
             'menu_icon'             => 'dashicons-video-alt2',
             'rewrite'               => array( 'slug' => 'movies' ),
             'query_var'             => true,
-            'supports'              => array( 'title' ),
+            'supports'              => array( 'title', 'thumbnail' ),
         );
 
         register_post_type( 'ttna_movie', $args );
@@ -168,6 +171,8 @@ class Tramontana_Movie {
         update_field('ttna-movie-overview', $data->overview, $newMovieId);
         update_field('ttna-movie-popularity', $data->popularity, $newMovieId);
         update_field('ttna-movie-vote', $data->vote_average, $newMovieId);
+        // Thumbnail
+        $this->attachImage($this->imgUrl.$data->poster_path, $newMovieId);
 
         return get_post($newMovieId);
     }
@@ -185,6 +190,32 @@ class Tramontana_Movie {
         );
         $posts = get_posts( $args );
         return $posts[0];
+    }
+
+    private function attachImage($imageUrl, $postId, $desc = null) {
+        require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+        require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+        require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+
+        if ( ! empty($imageUrl) ) {
+            // Download file to temp location
+            $tmp = download_url( $imageUrl );
+            // Set variables for storage
+            // fix file filename for query strings
+            preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $imageUrl, $matches);
+            $file_array['name'] = basename($matches[0]);
+            $file_array['tmp_name'] = $tmp;
+            // If error storing temporarily, unlink
+            if ( is_wp_error( $tmp ) ) {
+                @unlink($file_array['tmp_name']);
+                $file_array['tmp_name'] = '';
+            }
+            // do the validation and storage stuff
+            $id = media_handle_sideload( $file_array, $postId, $desc );
+            // If error storing permanently, unlink
+            if ( is_wp_error($id) ) {@unlink($file_array['tmp_name']);}
+            add_post_meta($postId, '_thumbnail_id', $id, true);
+        }
     }
 
 }
