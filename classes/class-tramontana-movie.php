@@ -8,8 +8,15 @@ class Tramontana_Movie {
 
     function Tramontana_Movie() {
         $this->imgUrl = 'http://image.tmdb.org/t/p/w500';
+
         add_action( 'init', [$this, 'regiter_post_type'] );
         $this->registerCustomFields();
+
+        add_filter('the_content', [$this, 'renderMovie'], 1);
+        add_filter( 'post_thumbnail_html',[$this, 'dontRender']);
+        add_filter( 'the_excerpt',[$this, 'dontRender']);
+
+        add_action( 'wp_enqueue_scripts', [$this,'enqueue_scripts']);
     }
 
     public function regiter_post_type() {
@@ -216,6 +223,24 @@ class Tramontana_Movie {
             if ( is_wp_error($id) ) {@unlink($file_array['tmp_name']);}
             add_post_meta($postId, '_thumbnail_id', $id, true);
         }
+    }
+
+    // Don't render, everithing will be rendered in the content
+    public function dontRender ($content) {
+        if (!is_singular('ttna_movie')) return $content;
+    }
+
+    public function enqueue_scripts () {
+        wp_enqueue_style( 'single-movie', plugins_url('/../assets/custom/css/single-movie.css', __FILE__));
+    }
+
+    public function renderMovie ($content) {
+
+        if (!is_singular('ttna_movie')) return $content;
+
+        ob_start();
+        require( dirname(__FILE__) . '/../templates/frontend/single-movie.php');
+        return $content . ob_get_clean();
     }
 
 }

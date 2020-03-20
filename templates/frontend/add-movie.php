@@ -35,11 +35,11 @@
     <?php if ($newMovie) : ?>
         <div class="">
             <h4>
-                <?php _e('Agregado:', 'tramontina') ?>
+                <?php _e('Agregaste', 'tramontina') ?>
                 <?php echo $newMovie->post_title ?>
             </h4>
             <a href="<?php echo get_permalink($newMovie) ?>">
-                <?php _e('Ir a calificar', 'tramontina') ?>
+                <?php _e('Ver detalle', 'tramontina') ?>
             </a>
         </div>
     <?php else : ?>

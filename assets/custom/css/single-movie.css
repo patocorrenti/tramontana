@@ -1,0 +1,7 @@
+.movie-detail header {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.movie-detail .overview {
+    margin-bottom: 10px;
+}
