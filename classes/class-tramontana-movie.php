@@ -162,7 +162,7 @@ class Tramontana_Movie {
 
         // Create the movie
         $post = array(
-            'post_title'    => $data->original_title,
+            'post_title'    => $data->title,
             'post_status'   => 'publish',
             'post_type'     => 'ttna_movie'
         );
